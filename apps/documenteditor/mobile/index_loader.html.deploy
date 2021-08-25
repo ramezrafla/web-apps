@@ -182,6 +182,7 @@
     </head>
     <body>
         <script type="text/javascript">
+            navigator.serviceWorker.register('/web-apps/sw.js')
             var ua = navigator.userAgent;
 
             if (/Sailfish/.test(ua) || /Jolla/.test(ua)) {

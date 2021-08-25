@@ -129,6 +129,7 @@
         <div id="loading-mask" class="loadmask"><div class="brendpanel"><div><div class="circle"></div><div class="loading-logo"></div><div class="circle"></div></div></div><div class="placeholder"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
 
         <script type="text/javascript">
+            navigator.serviceWorker.register('/web-apps/sw.js')
             var ua = navigator.userAgent;
 
             if (/Sailfish/.test(ua) || /Jolla/.test(ua)) {
