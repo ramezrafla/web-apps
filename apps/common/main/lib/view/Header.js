@@ -110,9 +110,7 @@ define([
                             '</section>' +
                         '</section>';
 
-        var templateLeftBox = '<section class="logo">' +
-                                '<div id="header-logo"><i></i></div>' +
-                            '</section>';
+        var templateLeftBox = '';
 
         var templateTitleBox = '<section id="box-document-title">' +
                                 '<div class="extra"></div>' +
@@ -465,14 +463,6 @@ define([
 
                 if ( role == 'left' && (!config || !config.isDesktopApp)) {
                     $html = $(templateLeftBox);
-                    this.logo = $html.find('#header-logo');
-
-                    if (this.branding && this.branding.logo && this.branding.logo.image && this.logo) {
-                        this.logo.html('<img src="' + this.branding.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
-                        this.logo.css({'background-image': 'none', width: 'auto'});
-                        (this.branding.logo.url || this.branding.logo.url===undefined) && this.logo.addClass('link');
-                    }
-
                     return $html;
                 } else
                 if ( role == 'right' ) {
@@ -580,20 +570,6 @@ define([
             },
 
             setBranding: function (value) {
-                var element;
-
-                this.branding = value;
-
-                if ( value ) {
-                    if ( value.logo && value.logo.image ) {
-                        element = $('#header-logo');
-                        if (element) {
-                            element.html('<img src="' + value.logo.image + '" style="max-width:100px; max-height:20px; margin: 0;"/>');
-                            element.css({'background-image': 'none', width: 'auto'});
-                            (value.logo.url || value.logo.url===undefined) && element.addClass('link');
-                        }
-                    }
-                }
             },
 
             setDocumentCaption: function(value) {

@@ -68,10 +68,6 @@ define([
                     'plugin:open': _.bind(this.onPluginOpen, this),
                     'hide':        _.bind(this.onHidePlugins, this)
                 },
-                'Common.Views.About': {
-                    'show':    _.bind(this.aboutShowHide, this, false),
-                    'hide':    _.bind(this.aboutShowHide, this, true)
-                },
                 'LeftMenu': {
                     'panel:show':    _.bind(this.menuExpand, this),
                     'comments:show': _.bind(this.commentsShowHide, this, 'show'),
@@ -559,19 +555,6 @@ define([
         },
         /** coauthoring end **/
 
-        aboutShowHide: function(value) {
-            if (this.api)
-                this.api.asc_enableKeyEvents(value);
-             if (value) $(this.leftMenu.btnAbout.el).blur();
-            if (value && this.leftMenu._state.pluginIsRunning) {
-                this.leftMenu.panelPlugins.show();
-                this.leftMenu.$el.width(Common.localStorage.getItem('pe-mainmenu-width') || MENU_SCALE_PART);
-                if (this.mode.canCoAuthoring) {
-                    this.mode.canViewComments && this.leftMenu.panelComments['hide']();
-                    this.mode.canChat && this.leftMenu.panelChat['hide']();
-                }
-            }
-        },
 
         menuFilesShowHide: function(state) {
             if ( this.dlgSearch ) {
@@ -592,11 +575,8 @@ define([
                 case 'search':
                     if ((!previewPanel || !previewPanel.isVisible()) && !this._state.no_slides)  {
                         Common.UI.Menu.Manager.hideAll();
-                        var full_menu_pressed = this.leftMenu.btnAbout.pressed;
                         this.showSearchDlg(true,s);
                         this.leftMenu.btnSearch.toggle(true,true);
-                        this.leftMenu.btnAbout.toggle(false);
-                        full_menu_pressed && this.menuExpand(this.leftMenu.btnAbout, 'files', false);
                     }
                     return false;
                 case 'save':
@@ -647,7 +627,7 @@ define([
                         }
                     }
 
-                    if ( this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
+                    if (this.leftMenu.btnPlugins.pressed ||
                         $(e.target).parents('#left-menu').length ) {
                         this.leftMenu.close();
                         Common.NotificationCenter.trigger('layout:changed', 'leftmenu');

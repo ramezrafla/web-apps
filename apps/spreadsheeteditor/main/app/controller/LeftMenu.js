@@ -64,10 +64,6 @@ define([
                     'comments:show': _.bind(this.commentsShowHide, this, true),
                     'comments:hide': _.bind(this.commentsShowHide, this, false)
                 },
-                'Common.Views.About': {
-                    'show':    _.bind(this.aboutShowHide, this, true),
-                    'hide':    _.bind(this.aboutShowHide, this, false)
-                },
                 'FileMenu': {
                     'menu:hide': _.bind(this.menuFilesShowHide, this, 'hide'),
                     'menu:show': _.bind(this.menuFilesShowHide, this, 'show'),
@@ -126,7 +122,6 @@ define([
             this.leftMenu.$el.find('button').each(function() {
                 $(this).on('keydown', function (e) {
                     if (Common.UI.Keys.RETURN === e.keyCode || Common.UI.Keys.SPACE === e.keyCode) {
-                        me.leftMenu.btnAbout.toggle(false);
 
                         this.blur();
 
@@ -766,22 +761,6 @@ define([
             }
         },
 
-        aboutShowHide: function(state) {
-            if (this.api) {
-                this.api.asc_closeCellEditor();
-                this.api.asc_enableKeyEvents(!state);
-
-                if (!state) $(this.leftMenu.btnAbout.el).blur();
-                if (!state && this.leftMenu._state.pluginIsRunning) {
-                    this.leftMenu.panelPlugins.show();
-                    if (this.mode.canCoAuthoring) {
-                        this.mode.canViewComments && this.leftMenu.panelComments['hide']();
-                        this.mode.canChat && this.leftMenu.panelChat['hide']();
-                    }
-                }
-            }
-        },
-
         menuFilesShowHide: function(state) {
             if (this.api) {
                 this.api.asc_closeCellEditor();
@@ -811,7 +790,6 @@ define([
                         Common.UI.Menu.Manager.hideAll();
                         this.showSearchDlg(true,s);
                         this.leftMenu.btnSearch.toggle(true,true);
-                        this.leftMenu.btnAbout.toggle(false);
 
                         this.leftMenu.menuFile.hide();
                     }
@@ -858,8 +836,7 @@ define([
                             return false;
                         }
                     }
-                    if ( this.leftMenu.btnAbout.pressed ||
-                        ($(e.target).parents('#left-menu').length || this.leftMenu.btnPlugins.pressed || this.leftMenu.btnComments.pressed) && this.api.isCellEdited!==true) {
+                    if (($(e.target).parents('#left-menu').length || this.leftMenu.btnPlugins.pressed || this.leftMenu.btnComments.pressed) && this.api.isCellEdited!==true) {
                         this.leftMenu.close();
                         Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
                         return false;
@@ -893,7 +870,6 @@ define([
         onCellsRange: function(status) {
             var isRangeSelection = (status != Asc.c_oAscSelectionDialogType.None);
 
-            this.leftMenu.btnAbout.setDisabled(isRangeSelection);
             this.leftMenu.btnSearch.setDisabled(isRangeSelection);
             this.leftMenu.btnSpellcheck.setDisabled(isRangeSelection);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {
@@ -905,7 +881,6 @@ define([
         onApiEditCell: function(state) {
             var isEditFormula = (state == Asc.c_oAscCellEditorState.editFormula);
 
-            this.leftMenu.btnAbout.setDisabled(isEditFormula);
             this.leftMenu.btnSearch.setDisabled(isEditFormula);
             this.leftMenu.btnSpellcheck.setDisabled(isEditFormula);
             if (this.mode.canPlugins && this.leftMenu.panelPlugins) {

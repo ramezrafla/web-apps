@@ -68,10 +68,6 @@ define([
                             this.clickMenuFileItem('header', 'history');
                     }.bind(this)
                 },
-                'Common.Views.About': {
-                    'show':    _.bind(this.aboutShowHide, this, false),
-                    'hide':    _.bind(this.aboutShowHide, this, true)
-                },
                 'Common.Views.Plugins': {
                     'plugin:open': _.bind(this.onPluginOpen, this),
                     'hide':        _.bind(this.onHidePlugins, this)
@@ -728,19 +724,6 @@ define([
         },
         /** coauthoring end **/
 
-        aboutShowHide: function(value) {
-            if (this.api)
-                this.api.asc_enableKeyEvents(value);
-            if (value) $(this.leftMenu.btnAbout.el).blur();
-            if (value && this.leftMenu._state.pluginIsRunning) {
-                this.leftMenu.panelPlugins.show();
-                if (this.mode.canCoAuthoring) {
-                    this.mode.canViewComments && this.leftMenu.panelComments['hide']();
-                    this.mode.canChat && this.leftMenu.panelChat['hide']();
-                }
-            }
-        },
-
         menuFilesShowHide: function(state) {
             if ( this.dlgSearch ) {
                 if ( state == 'show' )
@@ -773,7 +756,6 @@ define([
                     Common.UI.Menu.Manager.hideAll();
                     this.showSearchDlg(true,s);
                     this.leftMenu.btnSearch.toggle(true,true);
-                    this.leftMenu.btnAbout.toggle(false);
                     // this.leftMenu.menuFile.hide();
                     return false;
                 case 'save':
@@ -818,8 +800,7 @@ define([
                             return false;
                         }
                     }
-                    if (this.leftMenu.btnAbout.pressed || this.leftMenu.btnPlugins.pressed ||
-                                $(e.target).parents('#left-menu').length ) {
+                    if (this.leftMenu.btnPlugins.pressed || $(e.target).parents('#left-menu').length ) {
                         this.leftMenu.close();
                         Common.NotificationCenter.trigger('layout:changed', 'leftmenu');
                         return false;
