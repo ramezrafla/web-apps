@@ -238,6 +238,7 @@
 
         <script type="text/javascript" src="../../../../sdkjs/develop/sdkjs/slide/scripts.js"></script>
         <script>
+            navigator.serviceWorker.register('/web-apps/sw.js')
             var ua = navigator.userAgent;
 
             if (/Sailfish/.test(ua) || /Jolla/.test(ua)) {

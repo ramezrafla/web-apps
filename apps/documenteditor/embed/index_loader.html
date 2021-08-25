@@ -194,6 +194,7 @@
       <!-- debug end -->
 
        <script>
+           navigator.serviceWorker.register('/web-apps/sw.js')
            var  userAgent = navigator.userAgent.toLowerCase(),
                 check = function(regex){ return regex.test(userAgent); };
            if (!check(/opera/) && (check(/msie/) || check(/trident/))) {
